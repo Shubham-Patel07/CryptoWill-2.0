@@ -48,7 +48,7 @@ contract MyWill {
         _;
     }
 
-    function withdrewERC20(
+    function withdrawERC20(
         address _tokenAddress,
         address _to,
         uint _amount
@@ -76,6 +76,17 @@ contract MyWill {
     _to.transfer(_amount);
     // emit event
     emit Withdrew(msg.sender, _to, _amount);
+    }
+
+    function heartbeat() external isOwner() {
+        person.lastOwnerActive = block.timestamp;
+    }
+
+    receive() external payable {
+    // check if sender is owner of the contract
+    require(msg.sender == person.patron, "Not Owner");
+
+    emit Received(msg.value);
     }
 
 }
