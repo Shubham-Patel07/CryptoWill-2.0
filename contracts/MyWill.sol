@@ -38,4 +38,44 @@ contract MyWill {
     event Withdrew(address by, address to, uint256 amount);
     event Received(uint256 amount);
 
+    modifier isAllowed() {
+    require(
+        msg.sender == person.patron ||
+            (msg.sender == person.beneficiary &&
+                block.timestamp >= (person.lastOwnerActive + person.lockingPeriod)),
+        "Not Allowed!"
+        );
+        _;
+    }
+
+    function withdrewERC20(
+        address _tokenAddress,
+        address _to,
+        uint _amount
+    )external isAllowed 
+    {
+        IERC20Metadata token = IERC20Metadata(_tokenAddress);
+
+        // get balace of token
+        uint256 balance = token.balanceOf(address(this));
+        // check of balance is less than required Amount
+        require(balance >= _amount, "Not Enought Balance !");
+        // transfer required amount
+        token.transfer(_to, _amount);
+        // emit event after transfer
+        emit WithdrewERC20(_tokenAddress, msg.sender, _to, _amount);
+    }
+
+    function withdraw(
+        address payable _to,
+        uint256 _amount
+    ) external isAllowed {
+    // check of balance is less than required Amount
+    require(address(this).balance >= _amount, "Not Enought Balance !");
+    // send celo (ether) to given address
+    _to.transfer(_amount);
+    // emit event
+    emit Withdrew(msg.sender, _to, _amount);
+    }
+
 }
