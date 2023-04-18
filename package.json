@@ -11,7 +11,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.3",
     "@thirdweb-dev/contracts": "^3",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "ethers": "^6.3.0"
   },
   "description": "Create a project using this example:",
   "version": "1.0.0",

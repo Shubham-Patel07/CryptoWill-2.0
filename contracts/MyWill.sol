@@ -3,10 +3,9 @@ pragma solidity ^0.8.9;
 import "CryptoWill-2.0/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 contract MyWill {
-
     struct patron {
         address patron;
-        string name;             //name of the client/patron
+        string name; //name of the client/patron
         uint256 lastOwnerActive; //at which time the owner was last active
         uint256 lockingPeriod; //for how much time patron can claim assets
         address beneficiary;
@@ -39,11 +38,12 @@ contract MyWill {
     event Received(uint256 amount);
 
     modifier isAllowed() {
-    require(
-        msg.sender == person.patron ||
-            (msg.sender == person.beneficiary &&
-                block.timestamp >= (person.lastOwnerActive + person.lockingPeriod)),
-        "Not Allowed!"
+        require(
+            msg.sender == person.patron ||
+                (msg.sender == person.beneficiary &&
+                    block.timestamp >=
+                    (person.lastOwnerActive + person.lockingPeriod)),
+            "Not Allowed!"
         );
         _;
     }
@@ -52,8 +52,7 @@ contract MyWill {
         address _tokenAddress,
         address _to,
         uint _amount
-    )external isAllowed 
-    {
+    ) external isAllowed {
         IERC20Metadata token = IERC20Metadata(_tokenAddress);
 
         // get balace of token
@@ -66,27 +65,23 @@ contract MyWill {
         emit WithdrewERC20(_tokenAddress, msg.sender, _to, _amount);
     }
 
-    function withdraw(
-        address payable _to,
-        uint256 _amount
-    ) external isAllowed {
-    // check of balance is less than required Amount
-    require(address(this).balance >= _amount, "Not Enought Balance !");
-    // send celo (ether) to given address
-    _to.transfer(_amount);
-    // emit event
-    emit Withdrew(msg.sender, _to, _amount);
+    function withdraw(address payable _to, uint256 _amount) external isAllowed {
+        // check of balance is less than required Amount
+        require(address(this).balance >= _amount, "Not Enought Balance !");
+        // send celo (ether) to given address
+        _to.transfer(_amount);
+        // emit event
+        emit Withdrew(msg.sender, _to, _amount);
     }
 
-    function heartbeat() external isOwner() {
+    function heartbeat() external isOwner {
         person.lastOwnerActive = block.timestamp;
     }
 
     receive() external payable {
-    // check if sender is owner of the contract
-    require(msg.sender == person.patron, "Not Owner");
+        // check if sender is owner of the contract
+        require(msg.sender == person.patron, "Not Owner");
 
-    emit Received(msg.value);
+        emit Received(msg.value);
     }
-
 }
