@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-javascript-starter",
+  "name": "cryptowill",
   "scripts": {
     "build": "npx thirdweb@latest detect",
     "deploy": "npx thirdweb@latest deploy",
@@ -9,7 +9,21 @@
     "hardhat": "^2.10.1"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^4.8.3",
     "@thirdweb-dev/contracts": "^3",
     "dotenv": "^16.0.3"
-  }
+  },
+  "description": "Create a project using this example:",
+  "version": "1.0.0",
+  "main": "hardhat.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shubham-Patel07/CryptoWill-2.0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shubham-Patel07/CryptoWill-2.0/issues"
+  },
+  "homepage": "https://github.com/Shubham-Patel07/CryptoWill-2.0#readme"
 }
