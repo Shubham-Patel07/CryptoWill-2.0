@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 
 pragma solidity ^0.8.9;
-import "./Mywill.sol";
+import "./MyWill.sol";
 
 contract lockerMyWill {
     mapping(address => address[]) public lockers;
