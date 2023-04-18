@@ -8,5 +8,14 @@ module.exports = {
         runs: 200,
       },
     },
+    networks: {
+      localhost: {
+        url: process.env.PROVIDER_URL,
+        accounts: [`0x${process.env.PRIVATE_KEY}`]
+      }
+    },
+    contracts: {
+      deploy: ["./contracts/Greeter.sol"],
+    },
   },
 };
