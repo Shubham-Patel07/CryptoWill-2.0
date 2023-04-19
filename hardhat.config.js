@@ -1,4 +1,6 @@
 /** @type import('hardhat/config').HardhatUserConfig */
+
+require("@nomicfoundation/hardhat-chai-matchers");
 module.exports = {
   solidity: {
     version: '0.8.9',
@@ -8,6 +10,7 @@ module.exports = {
         runs: 200,
       },
     },
+  },
     networks: {
       localhost: {
         url: process.env.PROVIDER_URL,
@@ -17,5 +20,8 @@ module.exports = {
     contracts: {
       deploy: ["./contracts/Greeter.sol"],
     },
-  },
+    plugins: [
+      "@nomicfoundation/hardhat-chai-matchers"
+    ]
 };
+  
